@@ -7,6 +7,21 @@ if(!isset($user_id)){
    exit();
 }
 
+// Fonction pour récupérer des produits similaires
+function getSimilarProducts($product_id, $category, $conn) {
+    $similar_products = array();
+    if($stmt = $conn->prepare("SELECT * FROM products WHERE category = ? AND id != ? AND id NOT IN (SELECT product_id FROM ratings WHERE rating < 3)")){
+        $stmt->bind_param("si", $category, $product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while($row = $result->fetch_assoc()){
+            $similar_products[] = $row;
+        }
+        $stmt->close();
+    }
+    return $similar_products;
+}
+
 if(isset($_POST['update_cart'])){
    $cart_id = $_POST['cart_id'];
    $cart_quantity = $_POST['cart_quantity'];
@@ -75,23 +90,7 @@ if(isset($_GET['delete_all'])){
       $message[] = 'Failed to delete all items from cart!';
    }
 }
-
-// Fonction pour récupérer des produits similaires
-function getSimilarProducts($product_id, $conn) {
-   $similar_products = array();
-   if($stmt = $conn->prepare("SELECT * FROM products WHERE category IN (SELECT category FROM products WHERE id = ?) AND id != ?")){
-       $stmt->bind_param("ii", $product_id, $product_id);
-       $stmt->execute();
-       $result = $stmt->get_result();
-       while($row = $result->fetch_assoc()){
-           $similar_products[] = $row;
-       }
-       $stmt->close();
-   }
-   return $similar_products;
-}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -172,6 +171,22 @@ if(isset($message) && is_array($message)){
       </div>
       <?php
                $grand_total += $sub_total;
+
+               // Appel de la fonction pour récupérer les produits similaires
+               $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
+               
+               // Affichage des produits similaires
+               if (!empty($similar_products)) {
+                   echo "<h2>Products You May Like</h2>";
+                   foreach ($similar_products as $product) {
+                       echo "<div class='similar-product'>";
+                       echo "<img src='uploaded_img/{$product['image']}' alt='{$product['name']}'>";
+                       echo "<div class='name'>{$product['name']}</div>";
+                       echo "<div class='price'>$ {$product['price']} /-</div>";
+                       // Ajoutez un lien pour ajouter ce produit au panier, etc.
+                       echo "</div>";
+                   }
+               }
             }
          } else {
             echo '<p class="empty">Your cart is empty</p>';
@@ -194,31 +209,6 @@ if(isset($message) && is_array($message)){
          <a href="checkout.php" class="btn <?php echo ($grand_total > 1) ? '' : 'disabled'; ?>">Proceed to Checkout</a>
       </div>
    </div>
-
-   <?php
-         // Affichage des produits similaires si le rating est supérieur ou égal à 3
-         if($avg_stmt = $conn->prepare("SELECT AVG(rating) as avg_rating FROM `ratings` WHERE product_id = ?")){
-            $avg_stmt->bind_param("i", $fetch_cart['id']);
-            $avg_stmt->execute();
-            $avg_result = $avg_stmt->get_result();
-            $avg_rating = $avg_result->fetch_assoc()['avg_rating'];
-            if ($avg_rating >= 3) {
-               $similar_products = getSimilarProducts($fetch_cart['id'], $conn);
-               if (!empty($similar_products)) {
-                  echo "<h2>Products You May Like</h2>";
-                  foreach ($similar_products as $product) {
-                     echo "<div class='similar-product'>";
-                     echo "<img src='uploaded_img/{$product['image']}' alt='{$product['name']}'>";
-                     echo "<div class='name'>{$product['name']}</div>";
-                     echo "<div class='price'>$ {$product['price']} /-</div>";
-                     // Ajoutez un lien pour ajouter ce produit au panier, etc.
-                     echo "</div>";
-                  }
-               }
-            }
-            $avg_stmt->close();
-         }
-      ?>
 
 </section>
 
