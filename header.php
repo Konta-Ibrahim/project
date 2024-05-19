@@ -11,6 +11,7 @@ if(isset($message)){
 }
 ?>
 <header class="header">
+   <!------
    <div class="header-1">
       <div class="flex">
          <div class="share">
@@ -23,6 +24,8 @@ if(isset($message)){
       </div>
    </div>
 
+   ------>
+
    <div class="header-2">
       <div class="flex">
          <a href="home.php" class="logo">Bookly.</a>
@@ -33,6 +36,8 @@ if(isset($message)){
             <a href="shop.php">shop</a>
             <a href="contact.php">contact</a>
             <a href="orders.php">orders</a>
+            <a href="recommendations.php">Top-ratings</a>
+
          </nav>
 
          <div class="icons">

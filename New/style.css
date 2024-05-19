@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  #user-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    margin-bottom: 5px;
+  }
+  
+  #category {
+    margin-bottom: 10px;
+  }
+  
+  #recommendations {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #movie-list {
+    list-style: none;
+    padding: 0;
+  }
+  
