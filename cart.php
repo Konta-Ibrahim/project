@@ -8,44 +8,28 @@ if (!isset($user_id)) {
 }
 
 function getSimilarProducts($product_id, $category, $conn) {
-   $similar_products = array();
+    $similar_products = array();
 
-   $sql = "
-       SELECT p.* 
-       FROM products p
-       LEFT JOIN ratings r ON p.id = r.product_id
-       WHERE p.category = ? 
-         AND p.id != ?
-         AND (r.rating IS NULL OR r.rating >= 3)
-       GROUP BY p.id";
+    $sql = "
+        SELECT p.* 
+        FROM products p
+        LEFT JOIN ratings r ON p.id = r.product_id
+        WHERE p.category = ? 
+          AND p.id != ?
+          AND (r.rating IS NULL OR r.rating >= 3)
+        GROUP BY p.id";
 
-   if ($stmt = $conn->prepare($sql)) {
-       $stmt->bind_param("si", $category, $product_id);
-       $stmt->execute();
-       $result = $stmt->get_result();
-       while ($row = $result->fetch_assoc()) {
-           $similar_products[] = $row;
-       }
-       $stmt->close();
-   }
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("si", $category, $product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $similar_products[] = $row;
+        }
+        $stmt->close();
+    }
 
-   return $similar_products;
-}
-
-function addToCart($user_id, $product_id, $quantity, $conn) {
-   $sql = "SELECT * FROM `products` WHERE `id` = ?";
-   $stmt = $conn->prepare($sql);
-   $stmt->bind_param("i", $product_id);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   $product = $result->fetch_assoc();
-   $stmt->close();
-
-   $sql = "INSERT INTO `cart` (user_id, name, price, quantity, image, category, rating) VALUES (?, ?, ?, ?, ?, ?, ?)";
-   $stmt = $conn->prepare($sql);
-   $stmt->bind_param("isdiisi", $user_id, $product['name'], $product['price'], $quantity, $product['image'], $product['category'], $product['rating']);
-   $stmt->execute();
-   $stmt->close();
+    return $similar_products;
 }
 
 function updateMissingData($conn) {
@@ -204,69 +188,69 @@ if (isset($message) && is_array($message)) {
                     $sub_total = $fetch_cart['quantity'] * $fetch_cart['price'];
         ?>
         <div class="box">
-    <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Delete this from cart?');"></a>
-    <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
-    <div class="name"><?php echo $fetch_cart['name']; ?></div>
-    <div class="category">Category: <?php echo $fetch_cart['category']; ?></div>
-    <div class="price">$<?php echo $fetch_cart['price']; ?>/-</div>
-    <div class="rating">Rating: <?php echo $fetch_cart['rating']; ?> stars</div>
-    <form action="" method="post">
-        <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
-        <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>">
-        <input type="submit" name="update_cart" value="Update" class="option-btn">
-    </form>
-    <div class="sub-total"> Sub Total: <span>$<?php echo $sub_total; ?>/-</span> </div>
-    <form action="" method="post">
-        <input type="hidden" name="product_id" value="<?php echo $fetch_cart['id']; ?>">
-        <label for="rating">Rate this product:</label>
-        <select name="rating" id="rating" required>
-            <option value="">Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <input type="submit" name="submit_rating" value="Rate" class="option-btn">
-    </form>
-    <div class="average-rating">
-        <?php
-        if ($avg_stmt = $conn->prepare("SELECT AVG(rating) as avg_rating FROM `ratings` WHERE product_id = ?")) {
-            $avg_stmt->bind_param("i", $fetch_cart['id']);
-            $avg_stmt->execute();
-            $avg_result = $avg_stmt->get_result();
-            $avg_rating = $avg_result->fetch_assoc()['avg_rating'];
-            echo $avg_rating ? 'Average Rating: ' . round($avg_rating, 2) : 'No ratings yet';
-            $avg_stmt->close();
-        }
-        ?>
-    </div>
-    <div class="similar-products-container">
-        <h2>Products You May Like</h2>
-        <div class="similar-products">
-            <?php 
-            $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
-            foreach ($similar_products as $product) { 
-            ?>
-            <div class="similar-product">
-                <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-                <div class="name"><?php echo $product['name']; ?></div>
-                <div class="price">$<?php echo $product['price']; ?> /-</div>
-            </div>
-            <?php } ?>
-        </div>
-    </div>
-</div>
-        <?php
-                    $grand_total += $sub_total;
+            <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Delete this from cart?');"></a>
+            <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
+            <div class="name"><?php echo $fetch_cart['name']; ?></div>
+            <div class="category">Category: <?php echo $fetch_cart['category']; ?></div>
+            <div class="price">$<?php echo $fetch_cart['price']; ?>/-</div>
+            <div class="rating">Rating: <?php echo $fetch_cart['rating']; ?> stars</div>
+            <form action="" method="post">
+                <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
+                <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>">
+                <input type="submit" name="update_cart" value="Update" class="option-btn">
+            </form>
+            <div class="sub-total"> Sub Total: <span>$<?php echo $sub_total; ?>/-</span> </div>
+            <form action="" method="post">
+                <input type="hidden" name="product_id" value="<?php echo $fetch_cart['id']; ?>">
+                <label for="rating">Rate this product:</label>
+                <select name="rating" id="rating" required>
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="submit" name="submit_rating" value="Rate" class="option-btn">
+            </form>
+            <div class="average-rating">
+                <?php
+                if ($avg_stmt =$conn->prepare("SELECT AVG(rating) as avg_rating FROM `ratings` WHERE product_id = ?")) {
+                    $avg_stmt->bind_param("i", $fetch_cart['id']);
+                    $avg_stmt->execute();
+                    $avg_result = $avg_stmt->get_result();
+                    $avg_rating = $avg_result->fetch_assoc()['avg_rating'];
+                    echo $avg_rating ? 'Average Rating: ' . round($avg_rating, 2) : 'No ratings yet';
+                    $avg_stmt->close();
                 }
+                ?>
+            </div>
+            <div class="similar-products-container">
+                <h2>Products You May Like</h2>
+                <div class="similar-products">
+                    <?php 
+                    $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
+                    foreach ($similar_products as $product) { 
+                    ?>
+                    <div class="similar-product">
+                        <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                        <div class="name"><?php echo $product['name']; ?></div>
+                        <div class="price">$<?php echo $product['price']; ?> /-</div>
+                    </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <?php
+                        $grand_total += $sub_total;
+                    }
+                } else {
+                    echo '<p class="empty">Your cart is empty</p>';
+                }
+                $stmt->close();
             } else {
-                echo '<p class="empty">Your cart is empty</p>';
+                echo '<p class="empty">Failed to fetch cart items</p>';
             }
-            $stmt->close();
-        } else {
-            echo '<p class="empty">Failed to fetch cart items</p>';
-        }
         ?>
     </div>
 
@@ -284,17 +268,17 @@ if (isset($message) && is_array($message)) {
 <?php include 'footer.php'; ?>
 
 <script>
-document.querySelectorAll('.similar-products').forEach(container => {
-    container.addEventListener('wheel', (e) => {
-        if (e.deltaY !== 0) {
-            e.preventDefault();
-            container.scrollBy({
-                left: e.deltaY < 0 ? -300 : 300,
-                behavior: 'smooth'
-            });
-        }
+    document.querySelectorAll('.similar-products').forEach(container => {
+        container.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0) {
+                e.preventDefault();
+                container.scrollBy({
+                    left: e.deltaY < 0 ? -300 : 300,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
-});
 </script>
 
 <script src="js/script.js"></script>
