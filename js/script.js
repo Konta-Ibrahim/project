@@ -211,8 +211,130 @@ function displayMovies(movies) {
 //filtrer par lettre
 
 function filterByLetter(letter) {
-    // Implement the filter logic
-    // For example, you can send an AJAX request to fetch products starting with the selected letter
-    console.log("Filter products by letter: " + letter);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'filter_movies.php?letter=' + letter, true);
+    xhr.onload = function() {
+       if (this.status === 200) {
+          const products = JSON.parse(this.responseText);
+          displayFilteredProducts(products);
+       }
+    };
+    xhr.send();
  }
+ 
+ function displayFilteredProducts(products) {
+    const boxContainer = document.getElementById('box-container-products');
+    boxContainer.innerHTML = '';
+ 
+    if (products.length === 0) {
+       boxContainer.innerHTML = '<p class="empty">No movies found!</p>';
+       return;
+    }
+ 
+    products.forEach(product => {
+       const productElement = document.createElement('form');
+       productElement.action = '';
+       productElement.method = 'post';
+       productElement.className = 'box';
+       productElement.style.maxWidth = '15rem';
+       productElement.style.margin = '0';
+ 
+       const productImageContainer = document.createElement('div');
+       productImageContainer.style.maxHeight = '15rem';
+       productImageContainer.style.overflow = 'hidden';
+ 
+       const productImage = document.createElement('img');
+       productImage.className = 'image';
+       productImage.src = 'uploaded_img/' + product.image;
+       productImage.alt = '';
+       productImage.style.width = '100%';
+       productImage.style.height = 'auto';
+ 
+       productImageContainer.appendChild(productImage);
+ 
+       const productName = document.createElement('div');
+       productName.className = 'name';
+       productName.style.padding = '.5rem 0';
+       productName.style.fontSize = '1.5rem';
+       productName.textContent = product.name;
+ 
+       const productPrice = document.createElement('div');
+       productPrice.className = 'price';
+       productPrice.style.fontSize = '1.8rem';
+       productPrice.style.position = 'absolute';
+       productPrice.style.top = '1rem';
+       productPrice.style.left = '1rem';
+       productPrice.style.borderRadius = '.5rem';
+       productPrice.style.padding = '.8rem';
+       productPrice.style.color = 'var(--white)';
+       productPrice.style.backgroundColor = 'var(--red)';
+       productPrice.textContent = '$' + product.price + '/-';
+ 
+       const productCategory = document.createElement('div');
+       productCategory.className = 'category';
+       productCategory.style.fontSize = '1.5rem';
+       productCategory.textContent = product.category;
+ 
+       const productQuantity = document.createElement('input');
+       productQuantity.type = 'number';
+       productQuantity.min = '1';
+       productQuantity.name = 'product_quantity';
+       productQuantity.value = '1';
+       productQuantity.className = 'qty';
+       productQuantity.style.width = '100%';
+       productQuantity.style.padding = '.6rem .7rem';
+       productQuantity.style.borderRadius = '.5rem';
+       productQuantity.style.border = 'var(--border)';
+       productQuantity.style.margin = '.5rem 0';
+       productQuantity.style.fontSize = '1.5rem';
+ 
+       const productId = document.createElement('input');
+       productId.type = 'hidden';
+       productId.name = 'product_id';
+       productId.value = product.id;
+ 
+       const productNameInput = document.createElement('input');
+       productNameInput.type = 'hidden';
+       productNameInput.name = 'product_name';
+       productNameInput.value = product.name;
+ 
+       const productPriceInput = document.createElement('input');
+       productPriceInput.type = 'hidden';
+       productPriceInput.name = 'product_price';
+       productPriceInput.value = product.price;
+ 
+       const productImageInput = document.createElement('input');
+       productImageInput.type = 'hidden';
+       productImageInput.name = 'product_image';
+       productImageInput.value = product.image;
+ 
+       const productCategoryInput = document.createElement('input');
+       productCategoryInput.type = 'hidden';
+       productCategoryInput.name = 'product_category';
+       productCategoryInput.value = product.category;
+ 
+       const addToCartButton = document.createElement('input');
+       addToCartButton.type = 'submit';
+       addToCartButton.value = 'add to cart';
+       addToCartButton.name = 'add_to_cart';
+       addToCartButton.className = 'btn';
+       addToCartButton.style.fontSize = '1.5rem';
+       addToCartButton.style.padding = '.8rem';
+ 
+       productElement.appendChild(productImageContainer);
+       productElement.appendChild(productName);
+       productElement.appendChild(productPrice);
+       productElement.appendChild(productCategory);
+       productElement.appendChild(productQuantity);
+       productElement.appendChild(productId);
+       productElement.appendChild(productNameInput);
+       productElement.appendChild(productPriceInput);
+       productElement.appendChild(productImageInput);
+       productElement.appendChild(productCategoryInput);
+       productElement.appendChild(addToCartButton);
+ 
+       boxContainer.appendChild(productElement);
+    });
+ }
+ 
  
