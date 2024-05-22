@@ -54,12 +54,10 @@ if(mysqli_num_rows($check_rating) > 0){
 <?php include 'header.php'; ?>
 
 <div class="heading">
-<h3>our shop</h3>
-<p> <a href="home.php">home</a> / shop </p>
+<h3>latest movies</h3>
 </div>
 
 <section class="products">
-<h1 class="title">latest products</h1>
 <div class="box-container">
    <?php  
       $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');

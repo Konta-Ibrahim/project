@@ -157,6 +157,103 @@ if (isset($_GET['delete_all'])) {
     <title>Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .message {
+            padding: 10px;
+            background-color: #f2f2f2;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+        }
+        .message span {
+            margin-right: 10px;
+        }
+        .message .fas {
+            cursor: pointer;
+        }
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 300px;
+            position: relative;
+        }
+        .box img {
+            max-width: 100%;
+            height: auto;
+        }
+        .box .name, .box .category, .box .price, .box .rating, .box .sub-total, .box .average-rating {
+            margin-bottom: 10px;
+        }
+        .box form {
+            margin-bottom: 10px;
+       
+        }
+        .option-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .option-btn:hover {
+            background-color: #ff4b4b;
+        }
+        .delete-btn {
+            background-color: #ff4444;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .delete-btn:hover {
+            background-color: #ff0000;
+        }
+        .delete-btn.disabled {
+            background-color: #ddd;
+            pointer-events: none;
+        }
+        .btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .btn.disabled {
+            background-color: #ddd;
+            pointer-events: none;
+        }
+        .similar-products-container {
+            margin-top: 20px;
+        }
+        .similar-products-container h2 {
+            margin-bottom: 10px;
+        }
+        .similar-products {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        .similar-product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 200px;
+        }
+        .similar-product img {
+            max-width: 100%;
+            height: auto;
+        }
+        .similar-product .name, .similar-product .price {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -170,12 +267,11 @@ if (isset($message) && is_array($message)) {
 ?>
 
 <div class="heading">
-    <h3>Shopping Cart</h3>
-    <p><a href="home.php">Home</a> / Cart</p>
+    <h3>Movies & Recommendations</h3>
 </div>
 
 <section class="shopping-cart">
-    <h1 class="title">Products Added</h1>
+    <h1 class="title">Movies Added</h1>
     <div class="box-container">
         <?php
         $grand_total = 0;
@@ -215,7 +311,7 @@ if (isset($message) && is_array($message)) {
             </form>
             <div class="average-rating">
                 <?php
-                if ($avg_stmt =$conn->prepare("SELECT AVG(rating) as avg_rating FROM `ratings` WHERE product_id = ?")) {
+                if ($avg_stmt = $conn->prepare("SELECT AVG(rating) as avg_rating FROM `ratings` WHERE product_id = ?")) {
                     $avg_stmt->bind_param("i", $fetch_cart['id']);
                     $avg_stmt->execute();
                     $avg_result = $avg_stmt->get_result();
@@ -225,22 +321,8 @@ if (isset($message) && is_array($message)) {
                 }
                 ?>
             </div>
-            <div class="similar-products-container">
-                <h2>Products You May Like</h2>
-                <div class="similar-products">
-                    <?php 
-                    $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
-                    foreach ($similar_products as $product) { 
-                    ?>
-                    <div class="similar-product">
-                        <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-                        <div class="name"><?php echo $product['name']; ?></div>
-                        <div class="price">$<?php echo $product['price']; ?> /-</div>
-                    </div>
-                    <?php } ?>
-                </div>
-            </div>
         </div>
+
         <?php
                         $grand_total += $sub_total;
                     }
@@ -253,11 +335,35 @@ if (isset($message) && is_array($message)) {
             }
         ?>
     </div>
-
     <div style="margin-top: 2rem; text-align:center;">
         <a href="cart.php?delete_all" class="delete-btn <?php echo ($grand_total > 1) ? '' : 'disabled'; ?>" onclick="return confirm('Delete all from cart?');">Delete All</a>
     </div>
     <div class="cart-total">
+        <!-- Section for Similar Products -->
+<section class="similar-products-section">
+    <h2>Similar Products</h2>
+    <div class="box-container similar-products-container">
+        <?php 
+        $result = $conn->query("SELECT * FROM `cart` WHERE user_id = '$user_id'");
+        if ($result->num_rows > 0) {
+            while ($fetch_cart = $result->fetch_assoc()) {
+                $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
+                foreach ($similar_products as $product) {
+                    ?>
+                    <div class="box similar-product">
+                        <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                        <div class="name"><?php echo $product['name']; ?></div>
+                        <div class="price">$<?php echo $product['price']; ?> /-</div>
+                    </div>
+                <?php 
+                }
+            }
+        } else {
+            echo '<p class="empty">No similar products found.</p>';
+        } 
+        ?>
+    </div>
+</section> 
         <p>Grand Total: <span>$<?php echo $grand_total; ?>/-</span></p>
         <div class="flex">
             <a href="shop.php" class="option-btn">Continue Shopping</a>
@@ -265,22 +371,48 @@ if (isset($message) && is_array($message)) {
         </div>
     </div>
 </section>
-<?php include 'footer.php'; ?>
 
-<script>
-    document.querySelectorAll('.similar-products').forEach(container => {
-        container.addEventListener('wheel', (e) => {
-            if (e.deltaY !== 0) {
-                e.preventDefault();
-                container.scrollBy({
-                    left: e.deltaY < 0 ? -300 : 300,
-                    behavior: 'smooth'
-                });
+<!-- Section for Similar Products -->
+<section class="similar-products-section">
+    <h2>Similar movies</h2>
+    <div class="box-container similar-products-container">
+        <?php 
+        $result = $conn->query("SELECT * FROM `cart` WHERE user_id = '$user_id'");
+        if ($result->num_rows > 0) {
+            while ($fetch_cart = $result->fetch_assoc()) {
+                $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
+                foreach ($similar_products as $product) {
+                    ?>
+                    <div class="box similar-product">
+                        <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                        <div class="name"><?php echo $product['name']; ?></div>
+                        <div class="price">$<?php echo $product['price']; ?> /-</div>
+                    </div>
+                <?php 
+                }
             }
-        });
-    });
-</script>
+        } else {
+            echo '<p class="empty">No similar products found.</p>';
+        } 
+        ?>
+    </div>
+</section> 
 
+<?php include 'footer.php'; ?>
+<!-- End of Similar Products Section -->
+                    <script>
+                        document.querySelectorAll('.similar-products').forEach(container => {
+                            container.addEventListener('wheel', (e) => {
+                                if (e.deltaY !== 0) {
+                                    e.preventDefault();
+                                    container.scrollBy({
+                                        left: e.deltaY < 0 ? -300 : 300,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            });
+                        });
+                    </script>
 <script src="js/script.js"></script>
 </body>
 </html>

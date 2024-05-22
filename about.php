@@ -26,16 +26,39 @@ if(!isset($user_id)){
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
+   <style>
+   .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.6rem;
+      text-decoration: none;
+      background-color: yellowgreen;
+      color: var(--white);
+      border-radius: .5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+   }
+
+   .btn:hover {
+      background-color: var(--black);
+      transform: translateY(-2px);
+   }
+
+   .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   }
+</style>
+
 </head>
 <body>
    
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>about us</h3>
-   <p> <a href="home.php">home</a> / about </p>
+   <p><a href="contact.php" class="btn">contact us</a></p>
 </div>
-
+<!------
 <section class="about">
 
    <div class="flex">
@@ -142,7 +165,7 @@ if(!isset($user_id)){
    </div>
 
 </section>
-
+-->
 <section class="authors">
 
    <h1 class="title">greate authors</h1>
@@ -170,7 +193,7 @@ if(!isset($user_id)){
          </div>
          <h3>john deo</h3>
       </div>
-
+<!-----
       <div class="box">
          <img src="images/author-3.jpg" alt="">
          <div class="share">
@@ -214,7 +237,7 @@ if(!isset($user_id)){
          </div>
          <h3>john deo</h3>
       </div>
-
+--->
    </div>
 
 </section>

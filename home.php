@@ -38,6 +38,8 @@ if(isset($_POST['add_to_cart'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>home</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -52,7 +54,7 @@ if(isset($_POST['add_to_cart'])){
 </section>
 
 <section class="products">
-   <h1 class="title">latest products</h1>
+   <h1 class="title">Recent movies add</h1>
    <div class="box-container" id="box-container-products">
       <?php  
          $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
@@ -92,7 +94,7 @@ if(isset($_POST['add_to_cart'])){
       <!-- Les films de l'API seront insérés ici -->
    </div>
 </section>
-
+<!---
 <section class="about">
    <div class="flex">
       <div class="image">
@@ -113,6 +115,8 @@ if(isset($_POST['add_to_cart'])){
       <a href="contact.php" class="white-btn">contact us</a>
    </div>
 </section>
+
+--->
 
 <?php include 'footer.php'; ?>
 
