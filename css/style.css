@@ -172,56 +172,70 @@ section{
    }
 }
 
-.form-container{
+.form-container {
    min-height: 100vh;
    background-color: var(--light-bg);
    display: flex;
    align-items: center;
    justify-content: center;
-   padding:2rem;
+   padding: 2rem; /* Augmente légèrement le padding pour plus d'espace */
 }
 
-.form-container form{
-   padding:2rem;
-   width: 50rem;
+.form-container form {
+   padding: 2rem; /* Maintient un bon padding pour plus de confort */
+   width: 40rem; /* Largeur confortable */
    border-radius: .5rem;
-   box-shadow: var(--box-shadow);
-   border:var(--border);
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+   border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure subtile */
    background-color: var(--white);
    text-align: center;
+   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ajoute des transitions */
 }
 
-.form-container form h3{
-   font-size: 3rem;
+.form-container form:hover {
+   transform: translateY(-5px); /* Légère élévation au survol */
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+}
+
+.form-container form h3 {
+   font-size: 3rem; /* Taille confortable */
    margin-bottom: 1rem;
    text-transform: uppercase;
-   color:var(--black);
+   color: var(--black);
 }
 
-.form-container form .box{
+.form-container form .box {
    width: 100%;
    border-radius: .5rem;
    background-color: var(--light-bg);
-   padding:1.2rem 1.4rem;
+   padding: 1.2rem 1.4rem;
    font-size: 1.8rem;
-   color:var(--black);
-   border:var(--border);
-   margin:1rem 0;
+   color: var(--black);
+   border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure subtile */
+   margin: 1rem 0;
+   transition: border-color 0.3s ease; /* Transition douce pour la bordure */
 }
 
-.form-container form p{
+.form-container form .box:focus {
+   border-color: var(--purple); /* Changement de couleur au focus */
+}
+
+.form-container form p {
    padding-top: 1.5rem;
    font-size: 2rem;
-   color:var(--black);
+   color: var(--black);
 }
 
-.form-container form p a{
-   color:var(--purple);
+.form-container form p a {
+   color: var(--purple);
+   transition: color 0.3s ease; /* Transition douce pour la couleur */
 }
 
-.form-container form p a:hover{
+.form-container form p a:hover {
    text-decoration: underline;
+   color: var(--dark-purple); /* Changement de couleur au survol */
 }
+
 
 .header .header-1{
    background-color: var(--light-bg);
@@ -306,24 +320,35 @@ section{
    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.header .header-2 .flex .navbar {
+   padding-bottom: 0.5rem; /* Ajouter un remplissage pour l'espace autour de la bordure */
+   transition: border-color 0.3s ease; /* Ajouter une transition pour la couleur de la bordure */
+   border-radius: 30px;
+   border: 5px solid #EBECF1;
+   animation: slide-in 1s ease-out;
+}
 
 .header .header-2 .flex .navbar a {
    margin: 0 1.5rem;
    font-size: 2rem;
    color: var(--light-color);
-   transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 .header .header-2 .flex .navbar a:hover {
-   color: var(--purple);
-   text-decoration: underline;
+   color: var(--purple); /* Changer la couleur au survol */
 }
+
+.header .header-2 .flex .navbar:hover {
+   border-color: var(--purple); /* Changer la couleur de la bordure au survol */
+}
+
+
 
 .header .header-2 .flex .icons > * {
    font-size: 2.5rem;
    color: var(--black);
    cursor: pointer;
-   margin-left: 1.5rem;
+   margin-left: 0rem;
    transition: color 0.3s ease;
 }
 
@@ -339,7 +364,7 @@ section{
    font-size: 2.5rem;
    color: var(--black);
    cursor: pointer;
-   margin-left: 1.5rem;
+   margin-left: 0rem;
    transition: color 0.3s ease;
 }
 
@@ -424,7 +449,7 @@ section{
 
 .home{
    min-height: 70vh;
-   background:linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url(../images/home-bg.jpg) no-repeat;
+   background:linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url(../images/cover.jpeg) no-repeat;
    background-size: cover;
    background-position: center;
    display: flex;
@@ -1224,4 +1249,26 @@ section{
 }
 
 
+/*filtrer par lettre*/
 
+.alphabet-buttons {
+   text-align: center;
+   margin: 1rem 0;
+}
+
+.alphabet-btn {
+   display: inline-block;
+   margin: 0.5rem;
+   padding: 0.8rem 1.2rem;
+   font-size: 1.2rem;
+   color: white;
+   background-color: #555;
+   border: none;
+   border-radius: 0.5rem;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.alphabet-btn:hover {
+   background-color: #333;
+}

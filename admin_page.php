@@ -36,9 +36,10 @@ if(!isset($admin_id)){
 <section class="dashboard">
 
    <h1 class="title">dashboard</h1>
+   
 
    <div class="box-container">
-
+<!----
       <div class="box">
          <?php
             $total_pendings = 0;
@@ -77,14 +78,14 @@ if(!isset($admin_id)){
          <h3><?php echo $number_of_orders; ?></h3>
          <p>order placed</p>
       </div>
-
+         -->
       <div class="box">
          <?php 
             $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
             $number_of_products = mysqli_num_rows($select_products);
          ?>
          <h3><?php echo $number_of_products; ?></h3>
-         <p>products added</p>
+         <p>movies added</p>
       </div>
 
       <div class="box">

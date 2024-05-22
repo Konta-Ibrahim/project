@@ -47,14 +47,23 @@ if(isset($_POST['add_to_cart'])){
 
 <section class="home">
    <div class="content">
-      <h3>Hand Picked Book to your door.</h3>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, quod? Reiciendis ut porro iste totam.</p>
+      <h3>Movies Recommended for you </h3>
+      <p>The recommendation made by you and for you according to your preferences</p>
       <a href="about.php" class="white-btn">discover more</a>
    </div>
 </section>
 
 <section class="products">
    <h1 class="title">Recent movies add</h1>
+
+   <div class="alphabet-buttons">
+      <?php
+         foreach(range('A', 'Z') as $char) {
+            echo "<button class='alphabet-btn' onclick='filterByLetter(\"$char\")'>$char</button>";
+         }
+      ?>
+   </div>
+
    <div class="box-container" id="box-container-products">
       <?php  
          $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');

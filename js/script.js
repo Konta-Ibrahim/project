@@ -208,3 +208,11 @@ function displayMovies(movies) {
 }
 
 
+//filtrer par lettre
+
+function filterByLetter(letter) {
+    // Implement the filter logic
+    // For example, you can send an AJAX request to fetch products starting with the selected letter
+    console.log("Filter products by letter: " + letter);
+ }
+ 

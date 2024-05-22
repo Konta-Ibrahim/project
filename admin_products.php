@@ -76,21 +76,21 @@ if(isset($_POST['update_product'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>products</title>
+   <title>movies</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/admin_style.css">
 </head>
 <body>
 <?php include 'admin_header.php'; ?>
 <section class="add-products">
-   <h1 class="title">shop products</h1>
+   <h1 class="title">movies</h1>
    <form action="" method="post" enctype="multipart/form-data">
-      <h3>add product</h3>
-      <input type="text" name="name" class="box" placeholder="enter product name" required>
-      <input type="number" min="0" name="price" class="box" placeholder="enter product price" required>
-      <input type="text" name="category" class="box" placeholder="enter product category" required>
+      <h3>add movies</h3>
+      <input type="text" name="name" class="box" placeholder="enter movie name" required>
+      <input type="number" min="0" name="price" class="box" placeholder="enter movie price" required>
+      <input type="text" name="category" class="box" placeholder="enter movie category" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
-      <input type="submit" value="add product" name="add_product" class="btn">
+      <input type="submit" value="add movies" name="add_product" class="btn">
    </form>
 </section>
 
@@ -106,13 +106,14 @@ if(isset($_POST['update_product'])){
          <div class="name"><?php echo $fetch_products['name']; ?></div>
          <div class="price">$<?php echo $fetch_products['price']; ?>/-</div>
          <div class="category"><?php echo $fetch_products['category']; ?></div>
-         <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
-         <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
+         <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn" style="background-color: green; padding: 5px 10px; font-size: 0.8rem;">update</a>
+         <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');" style="padding: 5px 10px; font-size: 0.8rem;">delete</a>
+
       </div>
       <?php
          }
       }else{
-         echo '<p class="empty">no products added yet!</p>';
+         echo '<p class="empty">no movies added yet!</p>';
       }
       ?>
    </div>
