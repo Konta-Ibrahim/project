@@ -767,68 +767,74 @@ section{
    background-color: var(--black);
 }
 
-
-.shopping-cart .box-container{
-   max-width: 1200px;
-   margin:0 auto;
+.shopping-cart .box-container {
+   max-width: 800px; /* Augmente légèrement la largeur maximale */
+   margin: 0 auto;
    display: grid;
-   grid-template-columns: repeat(auto-fit, 30rem);
-   align-items: center;
-   gap:1.5rem;
+   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); /* Ajuste les colonnes en fonction de la largeur */
+   align-items: flex-start; /* Aligne les éléments en haut */
+   gap: 1.5rem;
    justify-content: center;
 }
 
-.shopping-cart .box-container .box{
+.shopping-cart .box-container .box {
    text-align: center;
-   padding:2rem;
+   padding: 1.5rem; /* Réduit légèrement le rembourrage */
    border-radius: .5rem;
    background-color: var(--white);
    box-shadow: var(--box-shadow);
    position: relative;
-   border:var(--border);
+   border: var(--border);
 }
 
-.shopping-cart .box-container .box .fa-times{
+.shopping-cart .box-container .box .fa-times {
    position: absolute;
-   top:1rem; right:1rem;
-   height: 4.5rem;
-   width: 4.5rem;
-   line-height: 4.5rem;
-   font-size: 2rem;
+   top: 1rem;
+   right: 1rem;
+   height: 3rem; /* Réduit la taille de l'icône de suppression */
+   width: 3rem; /* Réduit la taille de l'icône de suppression */
+   line-height: 3rem;
+   font-size: 1.5rem; /* Réduit légèrement la taille de l'icône de suppression */
    background-color: var(--red);
-   color:var(--white);
-   border-radius: .5rem;
+   color: var(--white);
+   border-radius: 50%; /* Rend l'icône de suppression plus arrondie */
+   cursor: pointer; /* Ajoute un curseur pointer */
+   transition: background-color 0.3s ease; /* Ajoute une transition de couleur de fond */
 }
 
-.shopping-cart .box-container .box .fa-times:hover{
+.shopping-cart .box-container .box .fa-times:hover {
    background-color: var(--black);
 }
 
-.shopping-cart .box-container .box img{
-   height: 30rem;
+.shopping-cart .box-container .box img {
+   height: 20rem; /* Réduit légèrement la hauteur de l'image */
+   width: 80%; /* Ajoute une largeur de 100% pour s'assurer que l'image s'adapte correctement */
+   object-fit: cover; /* Ajuste la façon dont l'image est affichée pour remplir le conteneur */
 }
 
-.shopping-cart .box-container .box .name{
-   padding:1rem 0;
-   font-size: 2rem;
-   color:var(--black);
+
+.shopping-cart .box-container .box .name {
+   padding: .5rem 0; /* Réduit légèrement le rembourrage autour du nom */
+   font-size: 1.8rem; /* Réduit légèrement la taille de la police */
+   color: var(--black);
 }
 
-.shopping-cart .box-container .box .price{
-   padding:1rem 0;
-   font-size: 2.5rem;
-   color:var(--red);
+.shopping-cart .box-container .box .price {
+   padding: .5rem 0; /* Réduit légèrement le rembourrage autour du prix */
+   font-size: 2rem; /* Réduit légèrement la taille de la police */
+   color: var(--red);
 }
 
-.shopping-cart .box-container .box input[type="number"]{
-   margin:.5rem 0;
-   border:var(--border);
+.shopping-cart .box-container .box input[type="number"] {
+   margin: .5rem 0;
+   border: var(--border);
    border-radius: .5rem;
-   padding:1.2rem 1.4rem;
-   font-size: 2rem;
-   color:var(--black);
+   padding: 1rem; /* Réduit légèrement le rembourrage */
+   font-size: 1.6rem; /* Réduit légèrement la taille de la police */
+   color: var(--black);
    width: 9rem;
 }
+
 
 .shopping-cart .box-container .box .sub-total{
    padding-top: 1.5rem;

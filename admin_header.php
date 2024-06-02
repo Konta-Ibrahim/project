@@ -19,7 +19,7 @@ if(isset($message)){
 
       <nav class="navbar">
          <a href="admin_page.php">home</a>
-         <a href="admin_products.php">products</a>
+         <a href="admin_products.php">movies</a>
             <!---
          <a href="admin_orders.php">orders</a>
          --->

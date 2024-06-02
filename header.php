@@ -13,7 +13,7 @@ if(isset($message)){
 <header class="header">
    <div class="header-2">
       <div class="flex">
-         <a href="home.php" class="logo">Recommend</a>
+         <a href="cart.php" class="logo">Recommend</a>
          <nav class="navbar">
             <a href="home.php">home</a>
             <a href="about.php">about</a>
