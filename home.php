@@ -14,7 +14,6 @@ if(isset($_POST['add_to_cart'])){
    $product_quantity = $_POST['product_quantity'];
    $product_category = $_POST['product_category'];
 
-   // Check if the product_id exists in the products table
    $product_check_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die('query failed');
    if(mysqli_num_rows($product_check_query) == 0){
       $message[] = 'Product does not exist!';
@@ -103,29 +102,6 @@ if(isset($_POST['add_to_cart'])){
       <!-- Les films de l'API seront insérés ici -->
    </div>
 </section>
-<!---
-<section class="about">
-   <div class="flex">
-      <div class="image">
-         <img src="images/about-img.jpg" alt="">
-      </div>
-      <div class="content">
-         <h3>about us</h3>
-         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit quos enim minima ipsa dicta officia corporis ratione saepe sed adipisci?</p>
-         <a href="about.php" class="btn">read more</a>
-      </div>
-   </div>
-</section>
-
-<section class="home-contact">
-   <div class="content">
-      <h3>have any questions?</h3>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque cumque exercitationem repellendus, amet ullam voluptatibus?</p>
-      <a href="contact.php" class="white-btn">contact us</a>
-   </div>
-</section>
-
---->
 
 <?php include 'footer.php'; ?>
 
@@ -133,6 +109,7 @@ if(isset($_POST['add_to_cart'])){
 const apiKey = '02359bb3023e7e44f2623b72d8b61f60'; // Remplacez par votre clé API TMDb
 const baseURL = 'https://api.themoviedb.org/3';
 const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
+const jsonFilePath = 'datasetjson.json'; // Remplacez par le chemin de votre fichier JSON
 
 async function fetchMovies() {
     try {
@@ -141,13 +118,14 @@ async function fetchMovies() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        displayMovies(data.results);
+        const jsonMovies = await fetch(jsonFilePath).then(response => response.json());
+        displayMovies(data.results, jsonMovies);
     } catch (error) {
         console.error('Erreur lors de la récupération des films:', error);
     }
 }
 
-function displayMovies(movies) {
+function displayMovies(apiMovies, jsonMovies) {
     const boxContainer = document.getElementById('box-container-movies');
 
     if (!boxContainer) {
@@ -155,12 +133,12 @@ function displayMovies(movies) {
         return;
     }
 
-    if (!movies || movies.length === 0) {
+    if (!apiMovies || apiMovies.length === 0) {
         console.log('Aucun film à afficher.');
         return;
     }
 
-    movies.forEach(movie => {
+    apiMovies.forEach(movie => {
         const movieElement = document.createElement('div');
         movieElement.classList.add('box');
 
@@ -193,10 +171,24 @@ function displayMovies(movies) {
         movieRating.style.fontSize = '1.2rem';
         movieRating.textContent = `Rating: ${movie.vote_average}`;
 
+        const movieDescription = document.createElement('div');
+        movieDescription.classList.add('description');
+        movieDescription.style.fontSize = '1rem';
+        movieDescription.style.marginTop = '0.5rem';
+        
+        // Find the matching movie in the JSON data
+        const jsonMovie = jsonMovies.find(m => m.id === movie.id);
+        if (jsonMovie) {
+            movieDescription.textContent = `Description: ${jsonMovie.description}`;
+        } else {
+            movieDescription.textContent = `Description: No description available.`;
+        }
+
         movieElement.appendChild(movieImageContainer);
         movieElement.appendChild(movieName);
         movieElement.appendChild(movieReleaseDate);
         movieElement.appendChild(movieRating);
+        movieElement.appendChild(movieDescription);
 
         boxContainer.appendChild(movieElement);
     });
