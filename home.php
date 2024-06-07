@@ -74,15 +74,15 @@ if(isset($_POST['add_to_cart'])){
       <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" style="width: 100%; height: auto;">
    </div>
    <div class="name" style="padding: .5rem 0; font-size: 1.5rem;"><?php echo $fetch_products['name']; ?></div>
-   <div class="price" style="font-size: 1.8rem; position: absolute; top: 1rem; left: 1rem; border-radius: .5rem; padding: .8rem; color: var(--white); background-color: var(--red);">$<?php echo $fetch_products['price']; ?>/-</div>
+   <div class="price" style="font-size: 1.8rem; display: none; position: absolute; top: 1rem; left: 1rem; border-radius: .5rem; padding: .8rem; color: var(--white); background-color: var(--red);">$<?php echo $fetch_products['price']; ?>/-</div>
    <div class="category" style="font-size: 1.5rem;"><?php echo $fetch_products['category']; ?></div>
-   <input type="number" min="1" name="product_quantity" value="1" class="qty" style="width: 100%; padding: .6rem .7rem; border-radius: .5rem; border: var(--border); margin: .5rem 0; font-size: 1.5rem;">
+   <input type="number" min="1" style="display: none;" name="product_quantity" value="1" class="qty" style="width: 100%; padding: .6rem .7rem; border-radius: .5rem; border: var(--border); margin: .5rem 0; font-size: 1.5rem;">
    <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
    <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
    <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
    <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
    <input type="hidden" name="product_category" value="<?php echo $fetch_products['category']; ?>">
-   <input type="submit" value="add to cart" name="add_to_cart" class="btn" style="font-size: 1.5rem; padding: .8rem;">
+   <input type="submit" value="add to favoris" name="add_to_cart" class="btn" style="font-size: 1.5rem; padding: .8rem;">
 </form>
       <?php
          }

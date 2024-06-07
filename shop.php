@@ -71,17 +71,17 @@ if(mysqli_num_rows($check_rating) > 0){
 <form action="" method="post" class="box">
    <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
    <div class="name"><?php echo $fetch_products['name']; ?></div>
-   <div class="price">$<?php echo $fetch_products['price']; ?>/-</div>
+   <div class="price" style="display: none;">$<?php echo $fetch_products['price']; ?>/-</div>
    <div class="category"><?php echo $fetch_products['category']; ?></div>
-   <input type="number" min="1" name="product_quantity" value="1" class="qty">
+   <input type="number" style="display: none;" min="1" name="product_quantity" value="1" class="qty">
    <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>"> <!-- Ajout de cette ligne -->
    <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
    <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
    <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
    <input type="hidden" name="product_category" value="<?php echo $fetch_products['category']; ?>">
-   <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+   <input type="submit" style="display: none;" value="add to cart" name="add_to_cart" class="btn">
 </form>
-  <form action="" method="post" class="box">
+  <form action="" method="post" class="box" style="display: none;">
    <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
    <label for="rating">Rate this product:</label>
    <select name="rating" id="rating">
@@ -100,6 +100,7 @@ if(mysqli_num_rows($check_rating) > 0){
    }
    ?>
 </div>
+
 </section>
 
 <?php include 'footer.php'; ?>
