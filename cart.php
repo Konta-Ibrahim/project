@@ -147,23 +147,33 @@ if (isset($_GET['delete_all'])) {
     }
 }
 
+
 function getTrailerUrl($productName) {
-    $apiKey = 'AIzaSyCtn4FCfTLs47Ob-JhlF1SfAWao5Y75ON4';
-    $query = urlencode($productName . ' trailer');
-    $apiUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q={$query}&key={$apiKey}&maxResults=1&type=video";
+    $apiKey = '02359bb3023e7e44f2623b72d8b61f60'; // Remplacez par votre clé API TMDb
+    $query = urlencode($productName);
+    $apiUrl = "https://api.themoviedb.org/3/search/movie?api_key={$apiKey}&query={$query}";
 
     $response = file_get_contents($apiUrl);
     $data = json_decode($response, true);
 
-    if (!empty($data['items'])) {
-        $videoId = $data['items'][0]['id']['videoId'];
-        return "https://www.youtube.com/embed/{$videoId}";
+    if (!empty($data['results'])) {
+        $movieId = $data['results'][0]['id'];
+        $videoApiUrl = "https://api.themoviedb.org/3/movie/{$movieId}/videos?api_key={$apiKey}";
+
+        $videoResponse = file_get_contents($videoApiUrl);
+        $videoData = json_decode($videoResponse, true);
+
+        if (!empty($videoData['results'])) {
+            foreach ($videoData['results'] as $video) {
+                if ($video['type'] === 'Trailer' && $video['site'] === 'YouTube') {
+                    return "https://www.youtube.com/embed/{$video['key']}";
+                }
+            }
+        }
     }
 
     return false;
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -384,8 +394,8 @@ if (isset($message) && is_array($message)) {
     </div>
     <div class="cart-total">
         <!-- Section for Similar Products -->
-<section class="similar-products-section">
-    <h2>Similar movies</h2>
+        <section class="similar-products-section">
+    <h2>Similar Movies</h2>
     <div class="box-container similar-products-container">
         <?php 
         $result = $conn->query("SELECT * FROM `cart` WHERE user_id = '$user_id'");
@@ -393,21 +403,24 @@ if (isset($message) && is_array($message)) {
             while ($fetch_cart = $result->fetch_assoc()) {
                 $similar_products = getSimilarProducts($fetch_cart['id'], $fetch_cart['category'], $conn);
                 foreach ($similar_products as $product) {
+                    $trailer_url = getTrailerUrl($product['name']);
                     ?>
                     <div class="box similar-product">
-                        <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-                        <div class="name"><?php echo $product['name']; ?></div>
-                        <div class="price">$<?php echo $product['price']; ?> /-</div>
+                        <div class="iframe-container">
+                            <iframe src="<?php echo $trailer_url; ?>" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <a href="details_movies.php" class="name"><?php echo $product['name']; ?></a>
                     </div>
                 <?php 
                 }
             }
         } else {
-            echo '<p class="empty">No similar movies found.</p>';
-        } 
+            echo '<p class="empty">No similar products found</p>';
+        }
         ?>
     </div>
-</section> 
+</section>
+
         <p style="display: none;">Grand Total: <span>$<?php echo $grand_total; ?>/-</span></p>
 
         <div class="flex">
@@ -447,6 +460,9 @@ if (isset($message) && is_array($message)) {
 
 </section> 
 -->
+
+
+
 <?php include 'footer.php'; ?>
 <!-- End of Similar Products Section -->
                     <script>
