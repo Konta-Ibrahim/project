@@ -43,27 +43,100 @@ if(isset($_POST['send'])){
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
+   <style>
+/* Styling for the contact section */
+.contact-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-container .heading {
+    flex: 1;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.contact-container .heading h3 {
+    font-size: 2.5rem;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.contact-container .contact-form {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-container .contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-container .contact-form form .box {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.contact-container .contact-form form textarea {
+    resize: none;
+}
+
+.contact-container .contact-form form .btn {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-container .contact-form form .btn:hover {
+    background-color: #0056b3;
+}
+</style>
 
 </head>
 <body>
    
 <?php include 'header.php'; ?>
 
-<div class="heading">
-   <h3>contact us</h3>
-</div>
 
-<section class="contact">
 
-   <form action="" method="post">
-      <h3>message</h3>
-      <input type="text" name="name" required placeholder="enter your name" class="box">
-      <input type="email" name="email" required placeholder="enter your email" class="box">
-      <input type="number" name="number" required placeholder="enter your number" class="box">
-      <textarea name="message" class="box" placeholder="enter your message" id="" cols="30" rows="10"></textarea>
-      <input type="submit" value="send message" name="send" class="btn">
-   </form>
+<section class="contact-container">
+    <div class="heading">
+        <h3>Contact Us</h3>
+        <div class="contact-form">
+        <form action="" method="post">
+            <h3>Message</h3>
+            <input type="text" name="name" required placeholder="Enter your name" class="box">
+            <input type="email" name="email" required placeholder="Enter your email" class="box">
+            <input type="number" name="number" required placeholder="Enter your number" class="box">
+            <textarea name="message" class="box" placeholder="Enter your message" cols="30" rows="10"></textarea>
+            <input type="submit" value="Send Message" name="send" class="btn">
+        </form>
+    </div>
+        
+    </div>
 
+  
 </section>
 
 

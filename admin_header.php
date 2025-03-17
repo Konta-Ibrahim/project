@@ -15,12 +15,14 @@ if(isset($message)){
 
    <div class="flex">
 
-      <a href="admin_page.php" class="logo">Admin<span>Panel</span></a>
+   <a href="home.php" class="logo">
+   <img src="images/ca.png" alt="Pouina Enterprises Logo" style="height: 50px;">
 
       <nav class="navbar">
+          <!---
          <a href="admin_page.php">home</a>
          <a href="admin_products.php">movies</a>
-            <!---
+           
          <a href="admin_orders.php">orders</a>
          --->
          <a href="admin_users.php">users</a>
