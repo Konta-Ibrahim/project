@@ -62,40 +62,7 @@ if(!isset($user_id)){
    </div>
 </section>
 
-<section id="team" class="team">
-   <h2>Meet Our Team</h2>
-   <div class="box-container">
-      <div class="box">
-         <img src="images/team1.jpg" alt="Team Member">
-         <h3>John Doe</h3>
-         <p>Lead Developer</p>
-      </div>
-      <div class="box">
-         <img src="images/team2.jpg" alt="Team Member">
-         <h3>Jane Smith</h3>
-         <p>UI/UX Designer</p>
-      </div>
-      <div class="box">
-         <img src="images/team3.jpg" alt="Team Member">
-         <h3>Mark Johnson</h3>
-         <p>Project Manager</p>
-      </div>
-   </div>
-</section>
 
-<section id="testimonials" class="testimonials">
-   <h2>What Our Clients Say</h2>
-   <div class="box-container">
-      <div class="box">
-         <p>"This team exceeded our expectations! Our website traffic has doubled since launch."</p>
-         <h4>– Sarah Connor</h4>
-      </div>
-      <div class="box">
-         <p>"Excellent service and support. The software they developed streamlined our operations."</p>
-         <h4>– Michael Scott</h4>
-      </div>
-   </div>
-</section>
 
 
 
