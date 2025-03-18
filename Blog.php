@@ -102,5 +102,7 @@ if (isset($_GET['delete'])) {
         </div>
     </div>
     <?php include 'footer.php'; ?>
+
+    
 </body>
-</html>
+</html> 

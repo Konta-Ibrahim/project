@@ -1262,145 +1262,127 @@ section h2 {
 
 
 
-
-/* General Styles */
-body {
-   font-family: 'Arial', sans-serif;
-   margin: 0;
-   padding: 0;
-   background-color: #f4f4f4;
-   color: #333;
-}
-
 .container {
-   width: 90%;
-   max-width: 1200px;
-   margin: 20px auto;
+   max-width: 800px;
+   margin: auto;
    padding: 20px;
-   background-color: #fff;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   border-radius: 8px;
-}
-
-h2 {
-   color: #444;
    text-align: center;
-   margin-bottom: 20px;
 }
-
-/* Form Styles */
+.btn {
+   background-color: #28a745;
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   cursor: pointer;
+   border-radius: 5px;
+}
+.btn:hover {
+   background-color: #218838;
+}
+/* Style général du formulaire */
 form {
-   margin-bottom: 40px;
+   width: 50%;
+   margin: 40px auto;
+   padding: 20px;
+   background: #ffffff;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+   border-radius: 8px;
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
 }
 
+/* Champs de saisie */
 .box {
    width: 100%;
-   padding: 10px;
-   margin-bottom: 15px;
+   padding: 12px;
    border: 1px solid #ddd;
-   border-radius: 4px;
+   border-radius: 5px;
    font-size: 16px;
+   transition: 0.3s;
 }
 
+.box:focus {
+   border-color: #007BFF;
+   box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+   outline: none;
+}
+
+/* Style du textarea */
 textarea.box {
-   height: 150px;
+   min-height: 120px;
    resize: vertical;
 }
 
+/* Bouton de soumission */
 .btn {
-   display: inline-block;
-   padding: 10px 20px;
-   background-color: #5cb85c;
+   background: linear-gradient(45deg, #007BFF, #00D4FF);
    color: white;
+   font-size: 18px;
    border: none;
-   border-radius: 4px;
+   padding: 12px;
+   border-radius: 5px;
    cursor: pointer;
-   font-size: 16px;
+   transition: 0.3s;
 }
 
 .btn:hover {
-   background-color: #4cae4c;
+   background: linear-gradient(45deg, #0056b3, #009acd);
 }
 
-.delete-btn {
-   background-color: #d9534f;
+/* Style du champ de fichier */
+input[type="file"] {
+   cursor: pointer;
 }
 
-.delete-btn:hover {
-   background-color: #c9302c;
+/* Responsive */
+@media (max-width: 768px) {
+   form {
+       width: 90%;
+   }
 }
 
-/* Post Styles */
-.posts {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 20px;
-}
-
-.post {
-   background-color: #f9f9f9;
-   border: 1px solid #ddd;
-   border-radius: 8px;
+.posts .post {
+   background: #fff;
    padding: 15px;
-   width: calc(33.333% - 20px);
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   margin: 10px 0;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   text-align: justify;
+   font-size: 15px;
 }
-
-.post:hover {
-   transform: translateY(-5px);
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.post h3 {
-   margin-top: 0;
-   color: #333;
-}
-
-.post p {
-   color: #666;
-   line-height: 1.6;
-}
-
 .post-media {
    max-width: 100%;
    height: auto;
-   border-radius: 4px;
+   border-radius: 5px;
    margin-top: 10px;
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-   .post {
-       width: calc(50% - 20px);
+.modal {
+   display: none;
+   position: fixed;
+   z-index: 1;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+   background-color: #fefefe;
+   margin: 10% auto;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 50%;
+   border-radius: 10px;
+}
+.close {
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+   cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+   .modal-content {
+       width: 90%;
    }
-}
-
-@media (max-width: 480px) {
-   .post {
-       width: 100%;
-   }
-
-   .btn {
-       width: 100%;
-       padding: 15px;
-   }
-}
-
-/* Header and Footer Styles */
-header, footer {
-   background-color: #333;
-   color: white;
-   padding: 10px 0;
-   text-align: center;
-}
-
-header a, footer a {
-   color: white;
-   text-decoration: none;
-   margin: 0 10px;
-}
-
-header a:hover, footer a:hover {
-   text-decoration: underline;
 }
